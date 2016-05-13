@@ -27,8 +27,8 @@ public class Flight {
         this.departure = departure;
         this.arrival = arrival;
         this.time = time;
-        this.price = 0.0;
-        this.capacity = 0;
+        this.price = price;
+        this.capacity = capacity;
     }
     public String getFlightNo(){
         return flightNo;
@@ -49,7 +49,7 @@ public class Flight {
         return capacity;
     }
     public String toString(){
-        return flightNo + " " + departure + " " + arrival + " " + time + " " + price + " " + capacity + "/n";
+        return flightNo + " " + departure + " " + arrival + " " + time + " " + price + " " + capacity + "\n";
     }
     public boolean equals(Object obj){
         if(obj instanceof Flight){

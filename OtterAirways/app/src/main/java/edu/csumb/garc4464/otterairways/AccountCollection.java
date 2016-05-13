@@ -15,6 +15,9 @@ public class AccountCollection {
 
     private AccountCollection(){
         customers = new HashMap<String, Customer>();
+        customers.put("A@lice5",new Customer("A@lice5", "@cSit100"));
+        customers.put("$BriAn7",new Customer("BriAn7", "123aBc##"));
+        customers.put("!chriS12!",new Customer("!chriS12!", "CHrIS12!!"));
     }
     public static AccountCollection getInstance(){
         if(uniqueAccountCollection == null){

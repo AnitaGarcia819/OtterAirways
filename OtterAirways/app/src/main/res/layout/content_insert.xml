@@ -12,6 +12,13 @@
     tools:context="edu.csumb.garc4464.otterairways.Insert"
     tools:showIn="@layout/activity_insert"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/insertTextView"
+        android:text="INSERT TEXT" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -47,6 +54,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/price"
         android:hint="Price"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/numTickets"
+        android:hint="No. of tickets"
+        android:visibility="invisible"
         />
 
     <Button

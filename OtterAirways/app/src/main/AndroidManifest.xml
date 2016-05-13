@@ -25,6 +25,10 @@
         <activity
             android:name=".Insert"
             android:label="@string/title_activity_insert"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewFlight"
+            android:label="@string/title_activity_view_flight"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

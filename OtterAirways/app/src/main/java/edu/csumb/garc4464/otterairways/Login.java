@@ -27,8 +27,8 @@ public class Login extends AppCompatActivity {
     Button submitButton;
     TextView textView;
     int signUpAttempts = 0;
-    private String ADMIN_USERNAME = "a";
-    private String ADMIN_PASSWORD = "a";
+    private String ADMIN_USERNAME = "!admiM2";
+    private String ADMIN_PASSWORD = "!admiM2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,6 @@ public class Login extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.loginTextView);
 
         // Button Pressed on from Main Page
-
         TRANSACTION = getIntent().getExtras().getString("TRANSACTION");
 
         // Render proper button and label
@@ -72,16 +71,11 @@ public class Login extends AppCompatActivity {
 
         // Verify if sign up or login
         if(TRANSACTION.equals("CREATE_ACCOUNT")){
-
-            // TODO: Input Validation
+            // Input Validation
             Pattern pat = Pattern.compile("(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[!@#$])");
-            String  str = inputUsername;
-            Matcher m = pat.matcher(str);
-            if (!m.find()) {
-
-                Log.d("submitButton", "User does exist");
-                // TODO: If user exists
-
+            Matcher pattern_username = pat.matcher(inputUsername);
+            Matcher pattern_password = pat.matcher(inputPassword);
+            if (!pattern_username.find() || !pattern_password.find()) {
                 // Increase attempts
                 signUpAttempts++;
                 // Alert
@@ -94,12 +88,11 @@ public class Login extends AppCompatActivity {
                                 // If Attempts are 2
                                 if (signUpAttempts == 2) {
                                     signUpAttempts = 0;
+                                    // Go to main menu
                                     Intent i = new Intent(getBaseContext(), Main.class);
                                     startActivity(i);
                                     dialog.dismiss();
                                 }
-                                // Go to Main
-                                // If Attempts < 2
                                 dialog.dismiss();
                             }
                         });
@@ -138,9 +131,80 @@ public class Login extends AppCompatActivity {
                 alertDialog.show();
                 // Go to Main Activity
             }else{// If user does exist already
+
+                alertDialog = new AlertDialog.Builder(Login.this).create();
+                alertDialog.setTitle("Alert");
+                alertDialog.setMessage("This username is taken already");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // If Attempts are 2
+                                if (signUpAttempts == 2) {
+                                    signUpAttempts = 0;
+                                    Intent i = new Intent(getBaseContext(), Main.class);
+                                    startActivity(i);
+                                    dialog.dismiss();
+                                }
+                                // Go to Main
+                                // If Attempts < 2
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+
                 }
         }else if(TRANSACTION.equals("CANCEL")){
-            // verify username is not taken
+            // Verify Username Exists
+            if(accounts.isUser(inputUsername)){
+                // Verify Password
+                if(accounts.getAccount(inputUsername).getPassword().equals(inputPassword)){
+                    i = new Intent(getBaseContext(), ViewFlight.class);
+                    startActivity(i);
+                }else{
+                    //If Password is wrong
+                    signUpAttempts++;
+                    alertDialog = new AlertDialog.Builder(Login.this).create();
+                    alertDialog.setTitle("Error");
+                    alertDialog.setMessage("Wrong username/password");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // If Attempts are 2
+                                    if (signUpAttempts == 2) {
+                                        signUpAttempts = 0;
+                                        // Go to main menu
+                                        Intent i = new Intent(getBaseContext(), Main.class);
+                                        startActivity(i);
+                                        dialog.dismiss();
+                                    }
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+            }else{
+                signUpAttempts++;
+                // Alert
+                alertDialog = new AlertDialog.Builder(Login.this).create();
+                alertDialog.setTitle("Error");
+                alertDialog.setMessage("User name Does not Exist");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // If Attempts are 2
+                                if (signUpAttempts == 2) {
+                                    signUpAttempts = 0;
+                                    Intent i = new Intent(getBaseContext(), Main.class);
+                                    startActivity(i);
+                                    dialog.dismiss();
+                                }
+                                // Go to Main
+                                // If Attempts < 2
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
         }else if(TRANSACTION.equals("MANAGE")){
             if(inputUsername.equals(ADMIN_USERNAME) && inputPassword.equals(ADMIN_PASSWORD)){
                 // Display transactions
@@ -158,6 +222,7 @@ public class Login extends AppCompatActivity {
                                             case DialogInterface.BUTTON_POSITIVE:
                                                 //Yes button clicked
                                                 Intent i = new Intent(getBaseContext(), Insert.class);
+                                                i.putExtra("TRANSACTION", "ADD_FLIGHT");
                                                 startActivity(i);
                                                 dialog.dismiss();
                                                 break;
@@ -203,5 +268,4 @@ public class Login extends AppCompatActivity {
             }
         }
     }
-
 }
