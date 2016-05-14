@@ -179,6 +179,9 @@ public class ViewFlight extends AppCompatActivity {
                                 reservations.cancel(TRANSACTION_USERNAME, inputEntry);
                                 transactions.log(new Cancelation(3, TRANSACTION_USERNAME, date, reservation));
                                 // Increase capacity
+
+                                int newCapacity = flights.getFlight(reservation.getFlightNo()).getCapacity() + reservation.getNumOfTickets() ;
+                                flights.updateFlight(reservation.getFlightNo() ,newCapacity );
                                 Intent i = new Intent(getBaseContext(), Main.class);
                                 startActivity(i);
                                 dialog.dismiss();

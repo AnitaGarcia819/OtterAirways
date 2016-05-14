@@ -117,8 +117,7 @@ public class FlightCollection {
                 currentCapacity = flights.get(i).getCapacity();
                 //Log.d("DEBUG", "NUM OF TICKETS:(current cap) " + no);
                 //Log.d("DEBUG", "NUM OF TICKETS:(current cap -  no ) "+  (currentCapacity - no));
-
-                flights.get(i).setCapacity(currentCapacity - no);
+                flights.get(i).setCapacity(no);
             }
         }
     }

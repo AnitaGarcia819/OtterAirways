@@ -295,7 +295,8 @@ public class Login extends AppCompatActivity {
                                     reservations.reserve(inputUsername, FLIGHT_NO, ReservationCollection.pendingReservation);
                                     Log.d("LOGIN_TEST", "reseration added " + ReservationCollection.pendingReservation.toString());
                                     // Update Capacity of flight
-                                    //flights.updateFlight(FLIGHT_NO, reservation.getNumOfTickets());
+                                    int newCapacity = flights.getFlight(FLIGHT_NO).getCapacity() - ReservationCollection.pendingReservation.getNumOfTickets();
+                                    flights.updateFlight(FLIGHT_NO,newCapacity );
                                     // Log reservations
                                     Date date = new Date();
                                     transactions.log(new ReserveSeat(2, inputUsername, date, ReservationCollection.pendingReservation));
