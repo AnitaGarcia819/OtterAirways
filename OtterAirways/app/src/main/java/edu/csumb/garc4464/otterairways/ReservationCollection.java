@@ -19,6 +19,10 @@ public class ReservationCollection {
     private ReservationCollection(){
         pendingReservation = new Reservation();
         reservations = new HashMap<String,HashMap<String, Reservation>>();
+        // int resNumber, String departure, String arrival, String time,int noOfTickets, String flightNo, double totalCost
+        reserve("!!Byun7","otter201",new Reservation(0,"monterey", "seattle","11:00 AM",2,"otter201",401.00));
+        reserve("!!Byun7","otter102",new Reservation(1,"los angeles", "monterey","1:00 PM",6,"otter102",900.00));
+        reserve("!!Byun7","otter301",new Reservation(2,"los angeles", "seattle","12:00 PM",1,"otter301",350.50));
     }
     public static void updatePendingReservation(Reservation reservation){
         Log.d("PENDInG", reservation.toString());
@@ -31,6 +35,11 @@ public class ReservationCollection {
             uniqueReservationCollection = new ReservationCollection();
         }
         return uniqueReservationCollection;
+    }
+    public boolean hasReservation(String username){
+        if(reservations.get(username) == null){
+            return false;
+        }return true;
     }
     public int getRESERVATION_NUM(){return RESERVATION_NUM;}
     public boolean reserve(String username, String flightNo, Reservation reservation){
@@ -52,15 +61,25 @@ public class ReservationCollection {
         reservations.get(username).put(flightNo, null);
         return true;
     }
-    public ArrayList<Reservation> getUserReservations(String username){
+    public String getUserReservations(String username){
         // Verify
-        ArrayList<Reservation> results = new ArrayList<Reservation>();
+        String results = "";
+        //ArrayList<Reservation> results = new ArrayList<Reservation>();
         for(Entry<String, Reservation> entry: reservations.get(username).entrySet()){
             Reservation value = entry.getValue();
-            results.add(value);
+            results += value.toString();
         }
         return results;
-    }/*
+    }
+    public Reservation getReservation(String username, String flightNo){
+        if(reservations.get(username) != null){
+            if(reservations.get(username).get(flightNo) != null){
+                reservations.get(username).get(flightNo);
+            }
+        }
+        return null;
+    }
+    /*
     public Reservation makeReservation(String reservation){
         String[] res =  reservation.split(" ");
        // double totalPrice = price * Integer.parseInt(res[6]);

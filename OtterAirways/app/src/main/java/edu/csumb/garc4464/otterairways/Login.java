@@ -162,7 +162,8 @@ public class Login extends AppCompatActivity {
                 // Verify Password
                 if(accounts.getAccount(inputUsername).getPassword().equals(inputPassword)){
                     i = new Intent(getBaseContext(), ViewFlight.class);
-
+                    i.putExtra("USERNAME", inputUsername);
+                    i.putExtra("TRANSACTION", "CANCEL");
                     startActivity(i);
                 }else{
                     //If Password is wrong
