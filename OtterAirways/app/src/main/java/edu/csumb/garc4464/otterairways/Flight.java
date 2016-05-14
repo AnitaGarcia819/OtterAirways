@@ -49,7 +49,7 @@ public class Flight {
         return capacity;
     }
     public String toString(){
-        return flightNo + " " + departure + " " + arrival + " " + time + " " + price + " " + capacity + "\n";
+        return flightNo + " " + departure + " " + arrival + " " + time + " $" + price + " " + capacity + "\n";
     }
     public boolean equals(Object obj){
         if(obj instanceof Flight){

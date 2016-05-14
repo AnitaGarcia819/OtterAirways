@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-
 public class ReservationCollection {
     private static ReservationCollection uniqueReservationCollection;
     HashMap<String,HashMap<String, Reservation>> reservations;
@@ -19,16 +18,15 @@ public class ReservationCollection {
     private ReservationCollection(){
         pendingReservation = new Reservation();
         reservations = new HashMap<String,HashMap<String, Reservation>>();
-        // int resNumber, String departure, String arrival, String time,int noOfTickets, String flightNo, double totalCost
+        /* For testing purposes
         reserve("!!Byun7","otter201",new Reservation(0,"monterey", "seattle","11:00 AM",2,"otter201",401.00));
         reserve("!!Byun7","otter102",new Reservation(1,"los angeles", "monterey","1:00 PM",6,"otter102",900.00));
-        reserve("!!Byun7","otter301",new Reservation(2,"los angeles", "seattle","12:00 PM",1,"otter301",350.50));
+        reserve("!!Byun7","otter301",new Reservation(2,"los angeles", "seattle","12:00 PM",1,"otter301",350.50));*/
     }
     public static void updatePendingReservation(Reservation reservation){
-        Log.d("PENDInG", reservation.toString());
+        //Log.d("PENDInG", reservation.toString());
         pendingReservation = reservation;
-        Log.d("PENDInG", pendingReservation.toString());
-
+        //Log.d("PENDInG", pendingReservation.toString());
     }
     public static ReservationCollection getInstance(){
         if(uniqueReservationCollection == null){
@@ -74,7 +72,7 @@ public class ReservationCollection {
     public Reservation getReservation(String username, String flightNo){
         if(reservations.get(username) != null){
             if(reservations.get(username).get(flightNo) != null){
-                reservations.get(username).get(flightNo);
+                return reservations.get(username).get(flightNo);
             }
         }
         return null;

@@ -147,7 +147,7 @@ public class Insert extends AppCompatActivity {
                                 flights.addFlight(flight);
 
                                 // Log flight recently added to test
-                                Log.d("INSERT_TEST", " " + flight);
+                                //Log.d("INSERT_TEST", " " + flight);
 
                                 // Go to Main Menu
                                 Intent i = new Intent(getBaseContext(), Main.class);

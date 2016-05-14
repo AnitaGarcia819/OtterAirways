@@ -27,6 +27,5 @@ public class Cancelation extends Transaction {
                 + " " + flightNo + " " + departure + " " + arrival +
                 numOfTickets  + super.currentTime.toString();
     }
-
 }
 

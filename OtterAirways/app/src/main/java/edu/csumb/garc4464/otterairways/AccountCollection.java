@@ -33,7 +33,7 @@ public class AccountCollection {
         return true;
     }
     public boolean isUser(String username){
-        Log.d("(isUser)", "result:" + customers.containsKey(username));
+       // Log.d("(isUser)", "result:" + customers.containsKey(username));
         return customers.containsKey(username);
     }
     public Customer getAccount(String userName){

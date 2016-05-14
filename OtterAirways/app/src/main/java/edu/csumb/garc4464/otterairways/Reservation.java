@@ -52,6 +52,6 @@ public class Reservation {
         return depTime;
     }
     public String toString(){
-        return resNumber + " " + flightNo + " " + departure + " " + arrival + " " + depTime + " " + noOfTickets + " " + totalCost + "\n";
+        return resNumber + " " + flightNo + " " + departure + " " + arrival + " " + depTime + " " + noOfTickets + " $" + totalCost + "\n";
     }
 }

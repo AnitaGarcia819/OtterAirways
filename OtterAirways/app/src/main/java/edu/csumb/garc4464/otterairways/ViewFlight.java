@@ -57,18 +57,15 @@ public class ViewFlight extends AppCompatActivity {
         TRANSACTION_NO_TICKETS = getIntent().getExtras().getInt("NO_TICKETS");
         TRANSACTION_USERNAME = getIntent().getExtras().getString("USERNAME");
 
-
         // Log Text to test data values
         Log.d("VIEWFLIGHT_TEST", "DEPARTURE " + TRANSACTION_DEPARTURE);
         Log.d("VIEWFLIGHT_TEST", "ARRIVAL " + TRANSACTION_ARRIVAL);
         Log.d("VIEWFLIGHT_TEST", "NO_TICKETS " + TRANSACTION_NO_TICKETS);
 
-
         // Render proper button and label & data displayed
-       // if(TRANSACTION != null)
+        // if(TRANSACTION != null)
         if(TRANSACTION.equals("RESERVE_SEAT")){
             viewButton.setText("RESERVE");
-            viewEntry.setText("Flight No.");
             // Get available flights
             String output = flights.getAvailableFlights(TRANSACTION_DEPARTURE, TRANSACTION_ARRIVAL, TRANSACTION_NO_TICKETS);
             if(output.equals("There are no matching flights")) {
@@ -88,14 +85,9 @@ public class ViewFlight extends AppCompatActivity {
                         });
                 alertDialog.show();
             }
-
-
-
             viewText.setText(output);
-
         }else if (TRANSACTION.equals("CANCEL")){
             viewButton.setText("CANCEL");
-            viewEntry.setText("Flight No.");
             // Check to see if user name is valid
             if(!reservations.hasReservation(TRANSACTION_USERNAME)){
                 // Error Alert
@@ -186,16 +178,16 @@ public class ViewFlight extends AppCompatActivity {
                                 Date date = new Date();
                                 reservations.cancel(TRANSACTION_USERNAME, inputEntry);
                                 transactions.log(new Cancelation(3, TRANSACTION_USERNAME, date, reservation));
-                                //Intent i = new Intent(getBaseContext(), Insert.class);
-                                //i.putExtra("TRANSACTION", "ADD_FLIGHT");
-                                //startActivity(i);
+                                // Increase capacity
+                                Intent i = new Intent(getBaseContext(), Main.class);
+                                startActivity(i);
                                 dialog.dismiss();
                                 break;
 
                             case DialogInterface.BUTTON_NEGATIVE:
                                 //No button clicked
-                                // i = new Intent(getBaseContext(), Main.class);
-                                // startActivity(i);
+                                i = new Intent(getBaseContext(), Main.class);
+                                startActivity(i);
                                 dialog.dismiss();
                                 break;
                         }

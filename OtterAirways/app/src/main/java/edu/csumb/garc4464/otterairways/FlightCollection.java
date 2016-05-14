@@ -45,7 +45,7 @@ public class FlightCollection {
         arrival = arrival.toLowerCase();
 
         // Test Data inserted
-        Log.d("FlightCollection", "(getAvFlight)" + departure + " | " + arrival + " | " + no);
+        //Log.d("FlightCollection", "(getAvFlight)" + departure + " | " + arrival + " | " + no);
 
         // Output to be returned
         String output = "Available Flights: \n\n" +
@@ -93,11 +93,11 @@ public class FlightCollection {
         arrival = arrival.toLowerCase();
         flightNo = flightNo.toLowerCase();
 
-        Log.d("FlightCollection", "(input)" +departure
-                + " | " + arrival + " | " + flightNo + " | " + no);
+        //Log.d("FlightCollection", "(input)" +departure
+              //  + " | " + arrival + " | " + flightNo + " | " + no);
         for(int i = 0; i < flights.size(); i++){
-             Log.d("FlightCollection", "(isFlightAvailavle)" +flights.get(i).getDeparture()
-                    + " | " + flights.get(i).getArrival() + " | "+ flights.get(i).getFlightNo() +" | " + flights.get(i).getCapacity());
+            // Log.d("FlightCollection", "(isFlightAvailavle)" +flights.get(i).getDeparture()
+                    //+ " | " + flights.get(i).getArrival() + " | "+ flights.get(i).getFlightNo() +" | " + flights.get(i).getCapacity());
             if(flights.get(i).getDeparture().equals(departure)
                     && flights.get(i).getArrival().equals(arrival)
                     && no <= (flights.get(i).getCapacity() )
@@ -108,15 +108,15 @@ public class FlightCollection {
         return false;
     }
     public void updateFlight(String flightNo, int no){
-        Log.d("DEBUG", "NUM OF TICKETS:(update) " + no);
+       // Log.d("DEBUG", "NUM OF TICKETS:(update) " + no);
 
         int currentCapacity;
         // Changes capacity
         for (int i = 0; i < flights.size(); i++) {
             if (flights.get(i).getFlightNo().equals(flightNo)){
                 currentCapacity = flights.get(i).getCapacity();
-                Log.d("DEBUG", "NUM OF TICKETS:(current cap) " + no);
-                Log.d("DEBUG", "NUM OF TICKETS:(current cap -  no ) "+  (currentCapacity - no));
+                //Log.d("DEBUG", "NUM OF TICKETS:(current cap) " + no);
+                //Log.d("DEBUG", "NUM OF TICKETS:(current cap -  no ) "+  (currentCapacity - no));
 
                 flights.get(i).setCapacity(currentCapacity - no);
             }
