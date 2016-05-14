@@ -17,9 +17,9 @@ public class Cancelation extends Transaction {
     public Cancelation(int type, String username, Date time, Reservation res){
         super(type, username, time);
         this.reservationNumber = res.getResNumber();
-        this.flightNo = res.getFlightNo();
-        this.departure = res.getDeparture();
-        this.arrival = res.getArrival();
+        this.flightNo = res.getFlightNo().toLowerCase();
+        this.departure = res.getDeparture().toLowerCase();
+        this.arrival = res.getArrival().toLowerCase();
         this.numOfTickets = res.getNumOfTickets();
     }
     public String toString(){

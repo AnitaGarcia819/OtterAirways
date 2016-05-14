@@ -58,6 +58,9 @@ public class Flight {
         }
         return false;
     }
+    public void setCapacity(int no){
+        this.capacity = no;
+    }
     /*public boolean equals(Object obj){
         if(obj instanceof Flight){
             Flight other = (Flight) obj;

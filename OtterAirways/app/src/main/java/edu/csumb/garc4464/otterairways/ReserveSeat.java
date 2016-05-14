@@ -23,16 +23,16 @@ public class ReserveSeat extends Transaction{
     }
     public ReserveSeat(int type, String username, Date time, Reservation res){
         super(type, username, time);
-        this.flightNo = res.getFlightNo();
-        this.departure = res.getDeparture();
-        this.arrival = res.getArrival();
+        this.flightNo = res.getFlightNo().toLowerCase();
+        this.departure = res.getDeparture().toLowerCase();
+        this.arrival = res.getArrival().toLowerCase();
         this.numOfTickets = res.getNumOfTickets();
         this.totalAmount = res.getTotalCost();
     }
     public String toString(){
         return super.type + " " + super.username
-                + " " + flightNo + " " + departure + " " + arrival +
-                numOfTickets + totalAmount + " " + super.currentTime.toString();
+                + " " + flightNo + " " + departure + " " + arrival + " " +
+                numOfTickets + " " + totalAmount + " " + super.currentTime.toString();
     }
 }
 

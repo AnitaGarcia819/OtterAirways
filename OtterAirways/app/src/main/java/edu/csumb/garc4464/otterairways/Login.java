@@ -4,18 +4,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +18,11 @@ import java.util.regex.Pattern;
 public class Login extends AppCompatActivity {
     private AccountCollection accounts;
     private TransactionsCollection transactions;
+    private ReservationCollection reservations;
+    private FlightCollection flights;
     private String TRANSACTION;
+    private String RESERVATION;
+    private String FLIGHT_NO;
     Button submitButton;
     TextView textView;
     int signUpAttempts = 0;
@@ -38,6 +37,8 @@ public class Login extends AppCompatActivity {
         // Initialize transaction and account collections
         accounts = AccountCollection.getInstance();
         transactions = TransactionsCollection.getInstance();
+        reservations = ReservationCollection.getInstance();
+        flights = FlightCollection.getInstance();
 
         // Page Button and Label
         submitButton = (Button) findViewById(R.id.submit_button);
@@ -45,9 +46,11 @@ public class Login extends AppCompatActivity {
 
         // Button Pressed on from Main Page
         TRANSACTION = getIntent().getExtras().getString("TRANSACTION");
+        RESERVATION = getIntent().getExtras().getString("RESERVATION");
+        FLIGHT_NO = getIntent().getExtras().getString("FLIGHT_NO");
 
         // Render proper button and label
-        if(TRANSACTION.equals("CANCEL") || TRANSACTION.equals("MANAGE")){
+        if(TRANSACTION.equals("CANCEL") || TRANSACTION.equals("MANAGE") || TRANSACTION.equals("RESERVE_SEAT")){
             submitButton.setText("LOGIN");
             textView.setText("Login");
 
@@ -62,9 +65,9 @@ public class Login extends AppCompatActivity {
         // Intent to new class
         Intent i = new Intent(this, Main.class);
         // Username and Password
-        EditText userName = (EditText) findViewById(R.id.username);
+        EditText userName = (EditText) findViewById(R.id.viewEdit);
         EditText password = (EditText) findViewById(R.id.password);
-        String inputUsername = userName.getText().toString();
+        final String inputUsername = userName.getText().toString();
         String inputPassword = password.getText().toString();
         // Log in attempts
         int loginAttempts = 0;
@@ -131,7 +134,7 @@ public class Login extends AppCompatActivity {
                 alertDialog.show();
                 // Go to Main Activity
             }else{// If user does exist already
-
+                signUpAttempts++;
                 alertDialog = new AlertDialog.Builder(Login.this).create();
                 alertDialog.setTitle("Alert");
                 alertDialog.setMessage("This username is taken already");
@@ -159,6 +162,7 @@ public class Login extends AppCompatActivity {
                 // Verify Password
                 if(accounts.getAccount(inputUsername).getPassword().equals(inputPassword)){
                     i = new Intent(getBaseContext(), ViewFlight.class);
+
                     startActivity(i);
                 }else{
                     //If Password is wrong
@@ -266,6 +270,101 @@ public class Login extends AppCompatActivity {
                         });
                 alertDialog.show();
             }
+        }else if(TRANSACTION.equals("RESERVE_SEAT")){
+            // Verify Username Exists
+            if(accounts.isUser(inputUsername)){
+                // Verify Password
+                if(accounts.getAccount(inputUsername).getPassword().equals(inputPassword)){
+                    // TODO:
+                    // Show flight info
+                    // Show Flight Confirm Dialog
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    // Yes button clicked
+                                    // Get pending reservation;
+                                    //ReservationCollection.pendingReservation;
+
+
+                                    //Reservation reservation = reservations.makeReservation(RESERVATION);
+                                    Log.d("LOGIN_TEST", "NUM OF TICKETS: " + ReservationCollection.pendingReservation.getNumOfTickets());
+
+                                    reservations.reserve(inputUsername, FLIGHT_NO, ReservationCollection.pendingReservation);
+                                    Log.d("LOGIN_TEST", "reseration added " + ReservationCollection.pendingReservation.toString());
+                                    // Update Capacity of flight
+                                    //flights.updateFlight(FLIGHT_NO, reservation.getNumOfTickets());
+                                    // Log reservations
+                                    Date date = new Date();
+                                    transactions.log(new ReserveSeat(2, inputUsername, date, ReservationCollection.pendingReservation));
+                                    // go home
+                                    ReservationCollection.pendingReservation = null;
+                                    Intent intent = new Intent(getBaseContext(), Main.class);
+                                    startActivity(intent);
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    //No button clicked
+                                    // Go home OR dismiss
+                                    //i = new Intent(getBaseContext(), Main.class);
+                                    //startActivity(i);
+                                    dialog.dismiss();
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+                    builder.setMessage("Confirm this reservation: \n" + ReservationCollection.pendingReservation.toString()).setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener).show();
+
+                }else{
+                    //If Password is wrong
+                    signUpAttempts++;
+                    alertDialog = new AlertDialog.Builder(Login.this).create();
+                    alertDialog.setTitle("Error");
+                    alertDialog.setMessage("Wrong username/password");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // If Attempts are 2
+                                    if (signUpAttempts == 2) {
+                                        signUpAttempts = 0;
+                                        // Go to main menu
+                                        Intent i = new Intent(getBaseContext(), Main.class);
+                                        startActivity(i);
+                                        dialog.dismiss();
+                                    }
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }
+            }else{
+                signUpAttempts++;
+                // Alert
+                alertDialog = new AlertDialog.Builder(Login.this).create();
+                alertDialog.setTitle("Error");
+                alertDialog.setMessage("User name Does not Exist");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // If Attempts are 2
+                                if (signUpAttempts == 2) {
+                                    signUpAttempts = 0;
+                                    Intent i = new Intent(getBaseContext(), Main.class);
+                                    startActivity(i);
+                                    dialog.dismiss();
+                                }
+                                // Go to Main
+                                // If Attempts < 2
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
+
         }
     }
 }

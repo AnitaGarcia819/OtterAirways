@@ -25,7 +25,7 @@ public class Main extends AppCompatActivity {
     }
     public void ReserveSeat(View view){
         Intent i = new Intent(this, Insert.class);
-        i.putExtra("TRANSACTION", "RESERVE");
+        i.putExtra("TRANSACTION", "RESERVE_SEAT");
         startActivity(i);
     }
     public void CancelReservation(View view){

@@ -1,6 +1,7 @@
 package edu.csumb.garc4464.otterairways;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
